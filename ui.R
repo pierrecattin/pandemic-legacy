@@ -15,6 +15,7 @@ ui <-
                 actionButton("draw_card", label="Tirer une carte"),
                 actionButton("epidemic", label="Epidemie"),
                 actionButton("delete", label="Exclure une carte"),
+                actionButton("undo", label="Annuler"),
                 h3("Défausse"),
                 tableOutput(outputId = "defausse"),
                 h3("Deck"),
