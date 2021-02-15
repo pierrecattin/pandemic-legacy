@@ -29,7 +29,8 @@ server <- function(input, output) {
       unique()
     selectInput(inputId="block",
                 choices=choices, 
-                label="Bloc de la carte à mettre en haut")
+                label="Bloc de la carte à mettre en haut", 
+                width="200px")
   })
   
   observeEvent(eventExpr = input$draw_card,{
