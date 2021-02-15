@@ -16,6 +16,4 @@ rm(cards)
 #### App ####
 source("ui.R")
 source("server.R")
-
-
 runApp(appDir=list(ui=ui, server=server))

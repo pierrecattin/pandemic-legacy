@@ -3,7 +3,7 @@ init_blocks <-
     nb_cards <- sum(cards$count)
     blocks <- 
       tibble(city=character(nb_cards), 
-             block=rep(0,nb_cards))
+             block=rep(0L,nb_cards))
     row <- 1
     for(i in 1:nrow(cards)){
       for(j in 1:cards$count[i]){
