@@ -23,7 +23,7 @@ server <- function(input, output) {
   
   output$select_block <- renderUI({
     choices <- reac$blocks %>%
-      filter(city==input$next_card,
+      filter(city==input$card_to_top,
              block>=0) %>%
       pull(block) %>%
       unique()
@@ -36,22 +36,22 @@ server <- function(input, output) {
   observeEvent(eventExpr = input$draw_card,{
     
     reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
-    reac$blocks <- draw_card(blocks=reac$blocks, city=input$next_card)
+    reac$blocks <- draw_card(blocks=reac$blocks, city=input$drawn_card)
   })
   
   observeEvent(eventExpr = input$epidemic,{
     reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
-    reac$blocks <- epidemic(blocks=reac$blocks, bottom_city=input$next_card)
+    reac$blocks <- epidemic(blocks=reac$blocks, bottom_city=input$bottom_card)
   })
   
   observeEvent(eventExpr = input$delete,{
     reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
-    reac$blocks <- delete_card(blocks=reac$blocks, city=input$next_card)
+    reac$blocks <- delete_card(blocks=reac$blocks, city=input$drawn_card)
   })
   
   observeEvent(eventExpr = input$move_top,{
     reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
-    reac$blocks <- move_top(blocks=reac$blocks, city=input$next_card, block=as.integer(input$block))
+    reac$blocks <- move_top(blocks=reac$blocks, city=input$card_to_top, block=as.integer(input$block))
   })
   
   observeEvent(eventExpr = input$undo,{

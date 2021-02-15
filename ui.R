@@ -11,28 +11,39 @@ ui <-
     dashboardBody(
       tabItem(tabName = "jouer",
               fluidRow(
-                box(
-                  width = 12,
-                  selectInput(inputId = "next_card", label="Carte", choices = unique(cards$city), width="200px"),
-                  actionButton("draw_card", label="Tirer une carte"),
-                  actionButton("epidemic", label="Epidemie"),
-                  actionButton("delete", label="Exclure une carte"),
-                  actionButton("undo", label="Annuler")
+                column(
+                  width=6,
+                  box(
+                    width = 6,
+                    title="Tirer une carte",
+                    selectInput(inputId = "drawn_card", label="Carte tirée", choices = unique(cards$city), width="200px"),
+                    actionButton("draw_card", label="Tirer une carte"),
+                    actionButton("delete", label="Exclure"),
+                  ),
+                  box(
+                    width = 6,
+                    title="Epidémie",
+                    selectInput(inputId = "bottom_card", label="Carte du dessous", choices = unique(cards$city), width="200px"),
+                    actionButton("epidemic", label="Epidemie"),
+                  ),
+                  box(
+                    width = 6,
+                    title="Réorganiser le deck",
+                    selectInput(inputId = "card_to_top", label="Carte à mettre en haut", choices = unique(cards$city), width="200px"),
+                    uiOutput(outputId = "select_block"),
+                    actionButton("move_top", label="Mettre en haut du deck"),
+                  )
                 ),
-                box(
-                  width = 12,
-                  title="Réorganiser le deck",
-                  collapsible = TRUE,
-                  collapsed=TRUE,
-                  uiOutput(outputId = "select_block"),
-                  actionButton("move_top", label="Mettre en haut du deck"),
-                ),
-                box(
-                  width = 12,
-                  h3("Défausse"),
-                  tableOutput(outputId = "defausse"),
-                  h3("Deck"),
-                  tableOutput(outputId = "deck")
+                column(
+                  width=6,
+                  box(
+                    width = 6,
+                    h3("Défausse"),
+                    tableOutput(outputId = "defausse"),
+                    h3("Deck"),
+                    tableOutput(outputId = "deck"),
+                    actionButton("undo", label="Annuler une action")
+                  )
                 )
               )
       )
