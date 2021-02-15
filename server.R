@@ -3,11 +3,22 @@ server <- function(input, output) {
   reac$blocks <- init_blocks(cards)
   
   
-  output$blocks <- 
-    renderTable({
-      reac$blocks
-    })
   
+  output$defausse <- 
+    renderTable({
+      reac$blocks %>%
+        filter(block==-1) %>%
+        group_by(city) %>%
+        summarise(count=n())
+    })
+  output$deck  <- 
+    renderTable({
+      reac$blocks %>%
+        filter(block>=0) %>%
+        group_by(block, city) %>%
+        summarise(count=n()) %>%
+        arrange(desc(block))
+    })
   
   observeEvent(eventExpr = input$draw_card,{
     reac$blocks <- draw_card(blocks=reac$blocks, city=input$next_card)
