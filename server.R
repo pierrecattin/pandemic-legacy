@@ -20,6 +20,39 @@ server <- function(input, output) {
         summarise(count=n()) %>%
         arrange(desc(block), desc(count))
     })
+  output$select_drawn_card <- renderUI({
+    choices <- reac$blocks %>%
+      filter(block==max(reac$blocks$block)) %>%
+      pull(city) %>%
+      unique()
+    selectInput(inputId = "drawn_card", 
+                label="Carte tirée", 
+                choices = choices, 
+                width="200px")
+  })
+  
+  output$select_bottom_card <- renderUI({
+    choices <- reac$blocks %>%
+      filter(block==0) %>%
+      pull(city) %>%
+      unique()
+    selectInput(inputId = "bottom_card", 
+                label="Carte du dessous", 
+                choices = choices, 
+                width="200px")
+  })
+  
+  output$select_card_to_top <- renderUI({
+    choices <- reac$blocks %>%
+      filter(block>=0) %>%
+      pull(city) %>%
+      unique()
+    
+    selectInput(inputId = "card_to_top", 
+                label="Carte à mettre en haut", 
+                choices = choices, 
+                width="200px")
+  })
   
   output$select_block <- renderUI({
     choices <- reac$blocks %>%

@@ -16,20 +16,20 @@ ui <-
                   box(
                     width = 12,
                     title="Tirer une carte",
-                    selectInput(inputId = "drawn_card", label="Carte tirée", choices = unique(cards$city), width="200px"),
+                    uiOutput(outputId = "select_drawn_card"),
                     actionButton("draw_card", label="Tirer une carte"),
                     actionButton("delete", label="Exclure"),
                   ),
                   box(
                     width = 12,
                     title="Epidémie",
-                    selectInput(inputId = "bottom_card", label="Carte du dessous", choices = unique(cards$city), width="200px"),
+                    uiOutput(outputId = "select_bottom_card"),
                     actionButton("epidemic", label="Epidemie"),
                   ),
                   box(
                     width = 12,
                     title="Réorganiser le deck",
-                    selectInput(inputId = "card_to_top", label="Carte à mettre en haut", choices = unique(cards$city), width="200px"),
+                    uiOutput(outputId = "select_card_to_top"),
                     uiOutput(outputId = "select_block"),
                     actionButton("move_top", label="Mettre en haut du deck"),
                   )
