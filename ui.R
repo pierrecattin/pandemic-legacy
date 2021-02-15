@@ -40,15 +40,17 @@ ui <-
                     width = 12,
                     column(
                       width=6,
-                      h3("Défausse"),
-                      tableOutput(outputId = "defausse")
+                      h4("Deck"),
+                      tableOutput(outputId = "deck")
                     ), 
                     column(
                       width=6,
-                      h3("Deck"),
-                      tableOutput(outputId = "deck")
-                    ),
-                    actionButton("undo", label="Annuler une action")
+                      h4("Défausse"),
+                      tableOutput(outputId = "defausse")
+                    )
+                  ),
+                  box(width=12,
+                      actionButton("undo", label="Annuler une action")
                   )
                 )
               )
