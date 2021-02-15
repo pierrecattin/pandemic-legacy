@@ -1,5 +1,5 @@
 rm(list=ls())
-
+options(encoding = 'UTF-8')
 #### Packages & functions ####
 deps <- c("openxlsx",
           "dplyr",
@@ -11,8 +11,7 @@ lapply(X=list.files("functions/",full.names = T), FUN = source)
 
 #### Data ####
 cards <- read.xlsx("data/all_cards.xlsx")
-blocks <- init_blocks(cards) 
-rm(cards)
+# blocks <- init_blocks(cards) 
 #### App ####
 source("ui.R")
 source("server.R")
