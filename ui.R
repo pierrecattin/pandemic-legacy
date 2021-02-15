@@ -14,6 +14,7 @@ ui <-
                 selectInput(inputId = "next_card", label="Carte tirée", choices = unique(cards$city)),
                 actionButton("draw_card", label="Tirer une carte"),
                 actionButton("epidemic", label="Epidemie"),
+                actionButton("delete", label="Exclure une carte"),
                 h3("Défausse"),
                 tableOutput(outputId = "defausse"),
                 h3("Deck"),
