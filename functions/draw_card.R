@@ -1,4 +1,8 @@
 draw_card <- 
   function(blocks, city){
-    return(set_block(blocks=blocks, city=city, block=-1L))
+    original_block <- blocks$block[which(blocks$city==city)[1]]
+    return(move_card(blocks=blocks, 
+                     city=city, 
+                     original_block=original_block, 
+                     target_block=-1L))
   }

@@ -8,7 +8,7 @@ server <- function(input, output) {
       reac$blocks %>%
         filter(block==-1) %>%
         group_by(city) %>%
-        summarise(count=n()) %>%
+        summarise(count=n(), .groups="drop") %>%
         arrange(desc(count))
     })
   
@@ -17,9 +17,10 @@ server <- function(input, output) {
       reac$blocks %>%
         filter(block>=0) %>%
         group_by(city, block) %>%
-        summarise(count=n()) %>%
+        summarise(count=n(), .groups="drop") %>%
         arrange(desc(block), desc(count))
     })
+  
   output$select_drawn_card <- renderUI({
     choices <- reac$blocks %>%
       filter(block==max(reac$blocks$block)) %>%
@@ -33,7 +34,7 @@ server <- function(input, output) {
   
   output$select_bottom_card <- renderUI({
     choices <- reac$blocks %>%
-      filter(block==0) %>%
+      filter(block==min(reac$blocks$block[reac$blocks$block>=0])) %>%
       pull(city) %>%
       unique()
     selectInput(inputId = "bottom_card", 
@@ -42,32 +43,18 @@ server <- function(input, output) {
                 width="200px")
   })
   
-  output$select_card_to_top <- renderUI({
+  output$select_block_from_card_to_move <- renderUI({
     choices <- reac$blocks %>%
-      filter(block>=0) %>%
-      pull(city) %>%
-      unique()
-    
-    selectInput(inputId = "card_to_top", 
-                label="Carte à mettre en haut", 
-                choices = choices, 
-                width="200px")
-  })
-  
-  output$select_block <- renderUI({
-    choices <- reac$blocks %>%
-      filter(city==input$card_to_top,
-             block>=0) %>%
+      filter(city==input$card_to_move) %>%
       pull(block) %>%
       unique()
-    selectInput(inputId="block",
+    selectInput(inputId="block_from_card_to_move",
                 choices=choices, 
-                label="Bloc de la carte à mettre en haut", 
+                label="Bloc de la carte à bouger", 
                 width="200px")
   })
   
   observeEvent(eventExpr = input$draw_card,{
-    
     reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
     reac$blocks <- draw_card(blocks=reac$blocks, city=input$drawn_card)
   })
@@ -77,14 +64,12 @@ server <- function(input, output) {
     reac$blocks <- epidemic(blocks=reac$blocks, bottom_city=input$bottom_card)
   })
   
-  observeEvent(eventExpr = input$delete,{
+  observeEvent(eventExpr = input$change_bloc,{
     reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
-    reac$blocks <- delete_card(blocks=reac$blocks, city=input$drawn_card)
-  })
-  
-  observeEvent(eventExpr = input$move_top,{
-    reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
-    reac$blocks <- move_top(blocks=reac$blocks, city=input$card_to_top, block=as.integer(input$block))
+    reac$blocks <- move_card(blocks=reac$blocks, 
+                             city=input$card_to_move,
+                             original_block=as.integer(input$block_from_card_to_move), 
+                             target_block=as.integer(input$block_to_move_card_to))
   })
   
   observeEvent(eventExpr = input$undo,{

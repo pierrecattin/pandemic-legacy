@@ -17,8 +17,7 @@ ui <-
                     width = 12,
                     title="Tirer une carte",
                     uiOutput(outputId = "select_drawn_card"),
-                    actionButton("draw_card", label="Tirer une carte"),
-                    actionButton("delete", label="Exclure"),
+                    actionButton("draw_card", label="Tirer une carte")
                   ),
                   box(
                     width = 12,
@@ -28,10 +27,14 @@ ui <-
                   ),
                   box(
                     width = 12,
-                    title="Réorganiser le deck",
-                    uiOutput(outputId = "select_card_to_top"),
-                    uiOutput(outputId = "select_block"),
-                    actionButton("move_top", label="Mettre en haut du deck"),
+                    title="Changement manuel",
+                    selectInput(inputId="card_to_move",
+                                choices=unique(cards$city), 
+                                label="Carte à changer de bloc", 
+                                width="200px"),
+                    uiOutput(outputId = "select_block_from_card_to_move"),
+                    numericInput(inputId = "block_to_move_card_to", label="Nouveau bloc",value=-2L, min=-2L, step=1L, width="200px"),
+                    actionButton("change_bloc", label="Changer le bloc")
                   )
                 ),
                 column(

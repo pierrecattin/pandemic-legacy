@@ -6,9 +6,9 @@ init_blocks <-
              block=rep(0L,nb_cards))
     row <- 1
     for(i in 1:nrow(cards)){
-      for(j in 1:cards$count[i]){
-        blocks$city[row] <- cards$city[i]
-        row <- row+1
+      if(cards$count[i]>0){
+        blocks$city[row:(row+cards$count[i]-1)] <- cards$city[i]
+        row <- row+cards$count[i]
       }
     }
     return(blocks)
