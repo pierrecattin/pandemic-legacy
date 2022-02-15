@@ -22,6 +22,10 @@ ui <-
                   box(
                     width = 12,
                     title="Epidémie",
+                    radioButtons(inputId="source_epidemic_card", 
+                                 label="Source de la carte d'épidémie",
+                                 choices=c("Deck"="deck", "Reserve"="reserve"),
+                                 selected="reserve"),
                     uiOutput(outputId = "select_bottom_card"),
                     actionButton("epidemic", label="Epidemie"),
                   ),

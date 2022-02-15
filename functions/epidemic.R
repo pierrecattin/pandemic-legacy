@@ -1,8 +1,13 @@
 epidemic <- 
-  function(blocks, bottom_city){
-    bottom_city_block <- 
-      blocks$block[last(which(blocks$city==bottom_city & 
-                                blocks$block>=0))]
+  function(blocks, bottom_city, from_reserve=FALSE){
+
+    if(!from_reserve){
+      bottom_city_block <- 
+        blocks$block[last(which(blocks$city==bottom_city & 
+                                  blocks$block>=0L))]
+    } else {
+      bottom_city_block <- -2L
+    }
     blocks <- move_card(blocks=blocks, 
                         city=bottom_city, 
                         original_block=bottom_city_block, 

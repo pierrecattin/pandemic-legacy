@@ -33,12 +33,18 @@ server <- function(input, output) {
   })
   
   output$select_bottom_card <- renderUI({
-    choices <- reac$blocks %>%
-      filter(block==min(reac$blocks$block[reac$blocks$block>=0])) %>%
-      pull(city) %>%
-      unique()
+    block_from_card <- 
+      if_else(input$source_epidemic_card=="deck",
+              min(reac$blocks$block[reac$blocks$block>=0]),
+              -2L)
+
+      choices <- reac$blocks %>%
+        filter(block == block_from_card) %>%
+        pull(city) %>%
+        unique()
+
     selectInput(inputId = "bottom_card", 
-                label="Carte du dessous", 
+                label="Carte d'épidémie", 
                 choices = choices, 
                 width="200px")
   })
@@ -61,7 +67,9 @@ server <- function(input, output) {
   
   observeEvent(eventExpr = input$epidemic,{
     reac$previous_blocks[[length(reac$previous_blocks)+1]] <- reac$blocks
-    reac$blocks <- epidemic(blocks=reac$blocks, bottom_city=input$bottom_card)
+    reac$blocks <- epidemic(blocks=reac$blocks, 
+                            bottom_city=input$bottom_card, 
+                            from_reserve=input$source_epidemic_card=="reserve")
   })
   
   observeEvent(eventExpr = input$change_bloc,{
